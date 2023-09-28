@@ -220,7 +220,7 @@ packages:
     source: hosted
     version: "2.0.3"
   flutter_riverpod:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: flutter_riverpod
       sha256: fcea39b84b666649280f6f678bc0bb479253bf865abc0387a8b11dac6477bf92

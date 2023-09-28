@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:test_app/models/album.dart';
-import 'package:test_app/services/album_service.dart';
+import 'package:test_app/providers/album_find_all_provider.dart';
+import 'package:test_app/providers/album_find_by_id_provider.dart';
 
 class ListAlbum extends StatelessWidget {
   const ListAlbum({super.key});
@@ -13,31 +15,37 @@ class ListAlbum extends StatelessWidget {
         title: const Text("Liste des albums"),
         centerTitle: true,
       ),
-      body: FutureBuilder<List<Album>>(
-          future: AlbumProvider.fetchListAlbum(),
-          builder:(context, AsyncSnapshot snapshot) {
-            if (!snapshot.hasData) {
-              return const Center(child: CircularProgressIndicator());
-            } else {
-              return ListView.builder(
-                  itemCount: snapshot.data.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Padding(
-                      padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
-                      child: Card(
-                          child: Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: ListTile(
-                              leading: CircleAvatar(child: Text('${snapshot.data[index].id}')),
-                              title: Text('${snapshot.data[index].title}'),
-                              onTap: () => context.go('/albums/detail'),
-                            ),
-                          )),
-                    );
-                  }
-              );
-            }
-          }
+      body: Consumer(
+        builder: (ctx, ref, _) {
+          final data = ref.watch(albumFindAllProvider);
+          return data.when(
+              data: (data) {
+                List<Album> albums = data.map((e) => e).toList();
+                return ListView.builder(
+                    itemCount: albums.length,
+                    itemBuilder: (_, index) {
+                      return Padding(
+                        padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
+                        child: Card(
+                            child: Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: ListTile(
+                                leading: CircleAvatar(child: Text('${albums[index].id}')),
+                                title: Text('${albums[index].title}'),
+                                onTap: () {
+                                  ref.read(albumFindByIdProvider.notifier).findById(id: albums[index].id!);
+                                  context.go('/albums/detail');
+                                },
+                              ),
+                            )),
+                      );
+                    }
+                );
+              },
+              error: (Object error, StackTrace stackTrace) => Center(child: Text(error.toString()),),
+              loading: () => const Center(child: CircularProgressIndicator(),)
+          );
+        }
       ),
     );
   }
