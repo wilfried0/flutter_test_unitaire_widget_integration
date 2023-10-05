@@ -49,6 +49,8 @@ class _FakeAlbum_1 extends _i1.SmartFake implements _i3.Album {
 /// See the documentation for Mockito's code generation for more information.
 class MockAlbumFindByIdProvider extends _i1.Mock
     implements _i4.AlbumFindByIdProvider {
+  MockAlbumFindByIdProvider(MockAlbumServiceImpl albumServiceImpl);
+
   @override
   set onError(_i5.ErrorListener? _onError) => super.noSuchMethod(
         Invocation.setter(

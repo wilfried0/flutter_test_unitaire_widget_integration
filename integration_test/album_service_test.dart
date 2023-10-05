@@ -7,9 +7,9 @@ import 'package:test_app/constantes/api_url.dart';
 import 'package:test_app/models/album.dart';
 import 'package:test_app/services/impl/album_service_impl.dart';
 import 'package:http/http.dart' as http;
-import 'album_service_test.mocks.dart';
+import '../test/album_service_test.mocks.dart';
 
-@GenerateNiceMocks([MockSpec<AlbumServiceImpl>(), MockSpec<Exception>()])
+@GenerateNiceMocks([MockSpec<AlbumServiceImpl>()])
 @GenerateMocks([http.Client])
 void main() {
   late MockAlbumServiceImpl albumServiceImpl;
@@ -25,7 +25,9 @@ void main() {
   group('fetchAlbum', () {
     test('simulation of http client get function', () async {
       when(client.get(Uri.parse('${ApiUrl.album}/1')))
-          .thenAnswer((_) async => http.Response(jsonEncode(album), 200));
+          .thenAnswer((_) async {
+            return http.Response(jsonEncode(album), 200);
+      });
       expect(await client.get(Uri.parse('${ApiUrl.album}/1')), isA<http.Response>());
       verify(client.get(Uri.parse('${ApiUrl.album}/1')));
     });

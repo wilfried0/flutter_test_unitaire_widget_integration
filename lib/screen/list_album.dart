@@ -12,7 +12,7 @@ class ListAlbum extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Liste des albums"),
+        title: const Text("Liste des albums", style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
       ),
       body: Consumer(
@@ -30,7 +30,9 @@ class ListAlbum extends StatelessWidget {
                             child: Padding(
                               padding: const EdgeInsets.all(5.0),
                               child: ListTile(
-                                leading: CircleAvatar(child: Text('${albums[index].id}')),
+                                leading: CircleAvatar(
+                                    backgroundColor: Colors.black54,
+                                    child: Text('${albums[index].id}', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),)),
                                 title: Text('${albums[index].title}'),
                                 onTap: () {
                                   ref.read(albumFindByIdProvider.notifier).findById(id: albums[index].id!);
@@ -42,7 +44,7 @@ class ListAlbum extends StatelessWidget {
                     }
                 );
               },
-              error: (Object error, StackTrace stackTrace) => Center(child: Text(error.toString()),),
+              error: (Object error, StackTrace stackTrace) => Center(child: Text(error.toString(), key: const Key('error')),),
               loading: () => const Center(child: CircularProgressIndicator(),)
           );
         }

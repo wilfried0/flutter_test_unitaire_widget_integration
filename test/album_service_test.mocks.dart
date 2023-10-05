@@ -92,11 +92,6 @@ class MockAlbumServiceImpl extends _i1.Mock implements _i4.AlbumServiceImpl {
       ) as _i5.Future<List<_i2.Album>>);
 }
 
-/// A class which mocks [Exception].
-///
-/// See the documentation for Mockito's code generation for more information.
-class MockException extends _i1.Mock implements Exception {}
-
 /// A class which mocks [Client].
 ///
 /// See the documentation for Mockito's code generation for more information.

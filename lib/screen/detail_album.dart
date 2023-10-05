@@ -9,7 +9,7 @@ class DetailAlbum extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Détail de l'album"),
+        title: const Text("Détails de l'album", style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
       ),
       body: Padding(
@@ -19,12 +19,11 @@ class DetailAlbum extends StatelessWidget {
             final info = ref.watch(albumFindByIdProvider);
             return info.isLoading ? const Center(child: CircularProgressIndicator()):
               Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: ListTile(
-                    leading: CircleAvatar(child: Text('${info.album.id}')),
-                    title: Text('${info.album.title}'),
-            ),
+                child: ListTile(
+                  leading: CircleAvatar(
+                      backgroundColor: Colors.black54,
+                      child: Text('${info.album.id}', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),)),
+                  title: Text('${info.album.title}'),
                 ),
               );
           }
